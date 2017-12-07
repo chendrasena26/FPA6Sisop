@@ -2,7 +2,7 @@
 #include "stat.h"
 #include "user.h"
 
-main(int argc, int *argv[])
+int main(int argc, char *argv[])
 {
   if(argc<2) {
 	printf(2,"tak ada nama file..\n");
@@ -16,4 +16,5 @@ main(int argc, int *argv[])
 	  exit();
 	  }
 	else exit();
+  }
 }
