@@ -8,6 +8,23 @@
 #include <xv6/fs.h>
 char *loc;
 
+int checktype(char * namefile)
+{
+   int fd;
+   struct stat setat;
+   fd=open(namefile, 0_RDONLY);
+   if(fd<0) return -1;
+   if(fstat(fd, &setat)<0) {
+	printf("stat failed. Program closed.\n");
+	close(fd);
+	sysexit();
+   }
+   close(fd);
+   if(st.type==T_FILE) return 1;
+   else if(st.type==T_DIR) return 0;
+   else return -1;
+}
+
 int main(int argc, char *argv[])
 {
    if(argc<=1) {
