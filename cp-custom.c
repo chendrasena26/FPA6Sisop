@@ -65,6 +65,44 @@ void cp(char *sour, char *dest)
    if(flag!=0) sysexit();
 }
 
+void tracker(char *source, char *dest)
+{
+   int fd;
+   struct dirent back;
+   char *point;
+   char buffsour[500], buffdest[500];
+   if((fd=open(source,0))<0)
+   {
+	printf("open failed.\n");
+	sysexit();
+   }
+   while(read(fd, &back, sizeof(back))==sizeof(back)) {
+	strcpy(buffsour, source);
+	strcpy(buffdest, dest);
+	if(!strcmp(back.d_name, ".") || !strcmp(back.d_name,"..") continue;
+	point=buffsour+strlen(buffsour);
+	if(*walker!='/') strcat(buffsour, "/");
+	point=buffdest+strlen(buffdest);
+	if(*walker!='/') strcat(buffdest, "/");
+	strcat(buffsour, back.d_name);
+    	strcat(buffsour, "\0");
+    	strcat(buffdest, back.d_name);
+    	strcat(buffdest, "\0");
+	if(!strcmp(global_destination, buffsour)) continue;
+	
+	if(checktype(buffsour)==1) cp(buffsour, buffdest);
+	else if(checktype(buffsour)==2) {
+	   mkdir(buffdest);
+	   tracker(buffsour, buffdest);
+	}
+	else {
+	   printf("error.\n");
+	   sysexit();
+	}
+   }
+   close(fd);
+}
+
 int main(int argc, char *argv[])
 {
    if(argc<=1) {
