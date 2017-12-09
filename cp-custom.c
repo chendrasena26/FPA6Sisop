@@ -9,7 +9,7 @@
 char *loc;
 char buff[500];
 
-int checktype(char * namefile)
+int checktype(char *namefile)
 {
    int fd;
    struct stat setat;
@@ -21,8 +21,8 @@ int checktype(char * namefile)
 	sysexit();
    }
    close(fd);
-   if(st.type==T_FILE) return 1;
-   else if(st.type==T_DIR) return 2;
+   if(setat.type==T_FILE) return 1;
+   else if(setat.type==T_DIR) return 2;
    else return -1;
 }
 
@@ -79,16 +79,16 @@ void tracker(char *source, char *dest)
    while(read(fd, &back, sizeof(back))==sizeof(back)) {
 	strcpy(buffsour, source);
 	strcpy(buffdest, dest);
-	if(!strcmp(back.d_name, ".") || !strcmp(back.d_name,"..") continue;
+	if(!strcmp(back.d_name, ".") || !strcmp(back.d_name,"..")) continue;
 	point=buffsour+strlen(buffsour);
-	if(*walker!='/') strcat(buffsour, "/");
+	if(*point!='/') strcat(buffsour, "/");
 	point=buffdest+strlen(buffdest);
-	if(*walker!='/') strcat(buffdest, "/");
+	if(*point!='/') strcat(buffdest, "/");
 	strcat(buffsour, back.d_name);
     	strcat(buffsour, "\0");
     	strcat(buffdest, back.d_name);
     	strcat(buffdest, "\0");
-	if(!strcmp(global_destination, buffsour)) continue;
+	if(!strcmp(loc, buffsour)) continue;
 	
 	if(checktype(buffsour)==1) cp(buffsour, buffdest);
 	else if(checktype(buffsour)==2) {
