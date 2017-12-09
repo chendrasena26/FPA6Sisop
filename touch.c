@@ -19,7 +19,7 @@ int main(int argc, char* argv[])
         if(file < 0) 
         {
             printf(2, "Failed to create file %s\n", argv[i]);
-            break();
+            exit();
         }
     }
     exit();
